@@ -1,35 +1,28 @@
 package toyproject.todo.todo.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.lang.reflect.Member;
 
+@Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Todo {
-
     @Id
-    private long todoId;
-    private String content;
-    private TodoStatus todoStatus = TodoStatus.TODO_ACTIVE;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 확인 필요
+    private Long todoId;
 
-    public enum TodoStatus {
-        TODO_ACTIVE(1, "Active"),
-        TODO_COMPLETE(2, "Completed");
+    @Column(length = 30)
+    private String title;
 
-        @Getter
-        private int stepNumb;
+    @Column(name = "orders")
+    private Long order = 0L;
 
-        @Getter
-        private String stepDescription;
+    private boolean completed = false;
 
-        TodoStatus(int stepNumb, String stepDescription) {
-            this.stepNumb = stepNumb;
-            this.stepDescription = stepDescription;
-        }
-    }
+    // Auditable 추가 예정
 
 }
