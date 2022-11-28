@@ -26,10 +26,6 @@ public class TodoController {
     @PostMapping
     public ResponseEntity createTodo(@Valid @RequestBody TodoPostDto todoPostDto) {
         Todo todo = todoService.saveTodo(mapper.todoPostToTodo(todoPostDto));
-        System.out.println(todo.getTodoId());
-        System.out.println(todo.getTitle());
-        System.out.println(todo.getOrder());
-        System.out.println(todo.isCompleted());
 
         return new ResponseEntity<>(mapper.todoToTodoResponse(todo), HttpStatus.CREATED);
     }

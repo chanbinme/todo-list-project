@@ -20,8 +20,6 @@ public class TodoService {
 
     @Transactional
     public Todo saveTodo(Todo todo) {
-        todo.setOrder(1L);
-
         return todoRepository.save(todo);
     }
 
