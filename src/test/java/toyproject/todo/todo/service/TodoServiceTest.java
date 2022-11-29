@@ -6,9 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
+import toyproject.todo.todo.dto.TodoPatchDto;
 import toyproject.todo.todo.entity.Todo;
 import toyproject.todo.todo.repository.TodoRepository;
 
@@ -16,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {
@@ -71,4 +70,36 @@ public class TodoServiceTest {
         // when / then
         assertThrows(RuntimeException.class, () -> todoService.findTodo(1L));
     }
+
+    @Test
+    public void updateTodoTest() throws Exception {
+        // given
+        Todo patchTodo = new Todo(1L, null, 1L, false);
+        Todo findTodo = new Todo(1L, "양치하기", 1L, false);
+
+        given(todoRepository.findById(Mockito.anyLong())).willReturn(Optional.of(findTodo));
+        given(todoRepository.save(Mockito.any(Todo.class))).willReturn(findTodo);
+
+        // when
+        Todo updateTodo = todoService.updateTodo(patchTodo);
+
+        // then
+        assertEquals(patchTodo.getTodoId(), updateTodo.getTodoId());
+        assertNotEquals(patchTodo.getTitle(), updateTodo.getTitle());
+        assertEquals(patchTodo.getOrder(), updateTodo.getOrder());
+        assertEquals(patchTodo.isCompleted(), updateTodo.isCompleted());
+    }
+
+    @Test
+    public void deleteTodoTest() throws Exception {
+        // given
+        Todo todo = new Todo(1L, "양치하기", 1L, false);
+
+        given(todoRepository.findById(Mockito.anyLong())).willReturn(Optional.of(todo));
+        doNothing().when(todoRepository).delete(todo);
+
+        // when / then
+        todoService.deleteTodo(todo.getTodoId());
+    }
+
 }

@@ -16,5 +16,5 @@ public class TodoPostDto {
     private Long order;
 
     @NotNull
-    private Boolean completed;
+    private boolean completed;
 }

@@ -32,13 +32,17 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo updateTodo(Long todoId, Todo todo) {
-        Todo updateTodo = verifiedTodo(todoId);
+    public Todo updateTodo(Todo todo) {
+        Todo findTodo = verifiedTodo(todo.getTodoId());
 
-        updateTodo.setTitle(todo.getTitle());
-        updateTodo.setCompleted(todo.isCompleted());
+        Optional.ofNullable(todo.getTitle())
+                .ifPresent(title -> findTodo.setTitle(title));
+        Optional.ofNullable(todo.getOrder())
+                .ifPresent(order -> findTodo.setOrder(order));
+        Optional.ofNullable(todo.isCompleted())
+                .ifPresent(completed -> findTodo.setCompleted(completed));
 
-        return updateTodo;
+        return todoRepository.save(findTodo);
     }
 
     @Transactional
