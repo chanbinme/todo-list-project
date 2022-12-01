@@ -66,7 +66,7 @@ class TodoControllerTest {
         TodoPostDto post = new TodoPostDto("양치하기", 1L, false);
         String content = gson.toJson(post);
         Todo todo = new Todo(1L, "양치하기", 1L, false);
-        TodoResponseDto responseDto = new TodoResponseDto(1L, "양치하기", 1L, false);
+        TodoResponseDto responseDto = TodoResponseDto.builder().todoId(1L).title("양치하기").order(1L).completed(false).build();
 
         // when
         given(mapper.todoPostToTodo(Mockito.any(TodoPostDto.class))).willReturn(todo);
@@ -112,7 +112,7 @@ class TodoControllerTest {
     public void getTodoTest() throws Exception {
         // given
         Todo todo = new Todo(1L, "양치하기", 1L, false);
-        TodoResponseDto responseDto = new TodoResponseDto(1L, "양치하기", 1L, false);
+        TodoResponseDto responseDto = TodoResponseDto.builder().todoId(1L).title("양치하기").order(1L).completed(false).build();
 
         // when
         given(todoService.findTodo(Mockito.anyLong())).willReturn(todo);
@@ -153,8 +153,8 @@ class TodoControllerTest {
         // given
         Todo todo1 = new Todo(1L, "양치하기", 1L, false);
         Todo todo2 = new Todo(2L, "세수하기", 2L, false);
-        TodoResponseDto responseDto1 = new TodoResponseDto(1L, "양치하기", 1L, false);
-        TodoResponseDto responseDto2 = new TodoResponseDto(2L, "세수하기", 2L, false);
+        TodoResponseDto responseDto1 = TodoResponseDto.builder().todoId(1L).title("양치하기").order(1L).completed(false).build();
+        TodoResponseDto responseDto2 = TodoResponseDto.builder().todoId(2L).title("세수하기").order(2L).completed(false).build();
 
         int page = 1;
         int size = 10;
@@ -211,7 +211,7 @@ class TodoControllerTest {
         // given
         TodoPatchDto patchDto = TodoPatchDto.builder().title("양치하기").build();
         Todo todo = new Todo(1L, "양치하기", 1L, false);
-        TodoResponseDto responseDto = new TodoResponseDto(1L, "양치하기", 1L, false);
+        TodoResponseDto responseDto = TodoResponseDto.builder().todoId(1L).title("양치하기").order(1L).completed(false).build();
         String content = gson.toJson(patchDto);
 
         // when

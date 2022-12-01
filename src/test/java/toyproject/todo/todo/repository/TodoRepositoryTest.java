@@ -19,13 +19,19 @@ class TodoRepositoryTest {
     @Test
     public void saveTodoTest() throws Exception {
         // given
-        Todo todo = new Todo(1L, "양치하기", 1L, false);
+        Todo todo = Todo.builder()
+                .order(1L)
+                .title("양치하기")
+                .completed(false)
+                .build();
 
         // when
         Todo saveTodo = todoRepository.save(todo);
 
         // then
         assertNotNull(saveTodo);
+        assertNotNull(todo.getCreatedAt());
+        assertNotNull(todo.getLastModifiedAt());
         assertEquals(todo.getTodoId(), saveTodo.getTodoId());
         assertEquals(todo.getTitle(), saveTodo.getTitle());
         assertEquals(todo.getOrder(), saveTodo.getOrder());
@@ -98,5 +104,4 @@ class TodoRepositoryTest {
         assertThrows(NoSuchElementException.class, () -> todoRepository.findById(saveTodo.getTodoId()).get());
         assertTrue(todoRepository.findById(saveTodo.getTodoId()).isEmpty());
     }
-
 }

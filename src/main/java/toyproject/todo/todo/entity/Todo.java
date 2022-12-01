@@ -1,16 +1,17 @@
 package toyproject.todo.todo.entity;
 
 import lombok.*;
+import toyproject.todo.audit.Auditable;
 
 import javax.persistence.*;
-import java.lang.reflect.Member;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Todo {
+public class Todo extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 확인 필요
     private Long todoId;
@@ -22,7 +23,4 @@ public class Todo {
     private Long order = 0L;
 
     private boolean completed = false;
-
-    // Auditable 추가 예정
-
 }
